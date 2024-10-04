@@ -1,0 +1,33 @@
+﻿@model Restaurant
+
+<h1>Create new Restaurant</h1>
+
+<form asp-action="Create" method="post">
+
+    <div class="form-group">
+        <label>Restaurant Name</label>
+        <input asp-for=Name class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>Phonenumber</label>
+        <input asp-for=PhoneNumber class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for=Email class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Address</label>
+        <input asp-for=Address class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <input asp-for=Description class="form-control" />
+    </div>
+
+        <button type="submit" class="btn btn-primary mr-1">Create</button>
+</form>
