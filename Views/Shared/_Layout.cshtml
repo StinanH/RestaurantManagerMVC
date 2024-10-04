@@ -31,7 +31,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @*Knapp för att logga ut*@
+                        @{
+                            if (User.Identity.IsAuthenticated)
+                            {
 
+                                Console.WriteLine("someone is signed in");
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-danger">Logout</button>
+                                </form>
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("noone is signed in.");
+                                <form asp-controller="Account" asp-action="Login">
+                                    <button type="submit" class="btn btn-success">Login</button>
+                                </form>
+                            }
+                        }
+
+                        <br />
                     </ul>
                 </div>
             </div>

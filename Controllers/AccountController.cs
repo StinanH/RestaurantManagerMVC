@@ -70,5 +70,22 @@ namespace RestaurantManagerMVC.Controllers
 
             return RedirectToAction("Login", "Account");
         }
+
+        ////check if there's an active cookie called jwtToken
+        //public async Task<bool> IsLoggedIn()
+        //{
+        //    if (Request.Cookies.ContainsKey("jwtToken"))
+        //    {
+        //        return true;
+        //        Console.WriteLine("Token found, logoutbox shown.");
+        //    }
+
+        //    else 
+        //    {
+        //        return false;
+
+        //        Console.WriteLine("Token not found, loginbox shown.");
+        //    }
+        //}
     }
 }
