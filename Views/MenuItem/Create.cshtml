@@ -1,0 +1,36 @@
+﻿@model MenuItem
+
+<h2>Create new menu item!</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="form-group">
+        <label>Name</label>
+        <input asp-for=Name class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Category</label>
+        <input asp-for=Category class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <input asp-for=Description class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input asp-for=Price class="form-control" />
+    </div>
+    
+    <div class="form-group">
+        <label>Is Avaliable</label>
+        <input asp-for="IsAvailable" type="checkbox">
+    </div>
+        
+    <button type="submit" class="btn btn-primary mr-1 mx-1 my-1">Create</button>
+
+    <a asp-controller="Restaurant" asp-action="Index" class="btn btn-primary mr-1 mx-1 my-1">Return</a>
+
+</form>

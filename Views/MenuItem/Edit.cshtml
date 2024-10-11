@@ -1,0 +1,45 @@
+﻿@model MenuItem
+
+<h2>Edit menu item!</h2>
+
+
+
+<form method="post" asp-controller="MenuItem" asp-action="UpdateInDb">
+
+    <div class="form-group">
+        <label>Name</label>
+        <input asp-for=Name class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Category</label>
+        <input asp-for=Category class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <input asp-for=Description class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <input asp-for=Price class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+
+    </div>
+    
+    <div class="form-group">
+        <label>Is Available</label><br />
+        <input asp-for="IsAvailable" type="checkbox"/>
+    </div>
+
+    <input type="hidden" asp-for="Id" /> <!-- Hidden field for the MenuItem ID -->
+
+    <button type="submit" class="btn btn-primary mr-1 mx-1 my-1">Save Changes</button>
+
+    <a asp-controller="Restaurant" asp-action="Index" class="btn btn-primary mr-1 mx-1 my-1">Return</a>
+
+</form>

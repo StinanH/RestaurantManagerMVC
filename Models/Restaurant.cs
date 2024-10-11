@@ -17,5 +17,7 @@ namespace RestaurantManagerMVC.Models
         public string? Address { get; set; }
         [DisplayName("About") ]
         public string? Description { get; set; }
+
+        public List<Menu> Menus {  get; set; } = new List<Menu>();
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestaurantManagerMVC.Models;
+using System.Numerics;
 using System.Text;
 
 namespace RestaurantManagerMVC.Controllers
@@ -16,35 +17,35 @@ namespace RestaurantManagerMVC.Controllers
             _client = client;
         }
 
-
         //must be authorized to use this endpoint
+
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Index(string searchItem, int? searchyear)
+        public async Task<IActionResult> Index(int id, string sortOrder)
         {
-            ViewData["Title"] = "Avaliable Restaurants";
+            id = 1;
+
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "none";
+            }
+
+            ViewData["Title"] = "Welcomet to the Restaurant";
 
             //ser till att vi alltid tar in token
             var token = HttpContext.Request.Cookies["jwtToken"];
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             //anropar API 
-            var response = await _client.GetAsync($"{baseUri}/Restaurant/all_restaurants");
+            var response = await _client.GetAsync($"{baseUri}/Restaurant/{id}?sortingOrder={sortOrder}");
 
             //läser json som string av body
             var json = await response.Content.ReadAsStringAsync();
 
-            //omvandlarr json till objekt List<Restaurant>();
-            var restaurantList = JsonConvert.DeserializeObject<List<Restaurant>>(json);
+            //omvandlarr json till objekt Restaurant;
+            var restaurant = JsonConvert.DeserializeObject<Restaurant>(json);
 
-            if (string.IsNullOrEmpty(searchItem))
-            {
-                int numericSearch = 0;
-                int.TryParse(searchItem, out numericSearch);
-            }
-
-            return View(restaurantList);
-
-
+            return View(restaurant);
         }
 
         public IActionResult Create()

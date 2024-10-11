@@ -1,0 +1,22 @@
+﻿@model MenuItem
+
+<div class="jumbotron">
+    <h1 class="display-6 text-center">Are you sure you want to delete the item?</h1>
+    <div>
+        <p class="text-center">
+            @Model.Name<br />
+            @Model.Description<br/>
+        </p>
+    </div>
+
+    <div class="btn-group d-flex align-items-center" role="group" >
+    
+        <form method="post" asp-controller="MenuItem" asp-action="DeleteInDb" asp-route-menuItemId="@Model.Id">
+
+            <button type="submit" class="btn btn-success btn-outline-success text-black mr-1 mx-1 my-1">Yes</button>
+
+        </form>
+        <a asp-controller="Restaurant" asp-action="Index" class="btn btn-danger btn-outline-danger text-black mr-1 mx-1 my-1">No</a>
+
+    </div>
+</div>

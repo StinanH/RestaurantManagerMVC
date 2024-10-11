@@ -1,13 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Restaurant
+
+@{
+    ViewData["Title"] = "Pizza Pazzi Page";
 }
 
-var
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="jumbotron align-content-md-center">
+  <h1 class="display-2">Hello, welcome to @Model.Name!</h1>
+  <p class="lead text-md-center">@Model.Description.</p>
+  <hr class="my-4">
 
-    @**@
-    
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+<div class="jumbotron">
+    @foreach (Menu menu in Model.Menus)
+        {
+            <div>
+                <h1 class="display-4">Our most popular dishes!</h1>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 ">
+
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <div class="card text-white text-xl-center bg-dark mb-3 mx-3 my-3" style="max-width: 18rem">
+                        <div class="card-body">
+                            <h5 class="card-header">
+                                #@i @menu.MenuItems[i].Name
+                            </h5>
+                            <div>
+                            <p class="card-text">@menu.MenuItems[i].Description </p>
+                            <p class="card-text">Pris : @menu.MenuItems[i].Price</p>
+                            <p class="card-text"></p>
+                            </div>
+                            <div>
+                                @if (menu.MenuItems[i].IsAvailable)
+                                {
+                                    @*button to add menuitem to order*@
+                                    <button type="button" class="btn btn-light btn-outline-info text-black align-bottom">Add to order</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-danger btn-outline-danger text-black align-bottom">Sold out</button>
+                                }
+
+                            </div>
+
+                        </div>
+                    
+                    </div>
+                }
+            </div>
+        }
+</div>
+
+    <h1 class="display-6">Contact us:</h1><p><br />@Model.Address <br /><br />Phonenumber : @Model.PhoneNumber</p>
+
 </div>

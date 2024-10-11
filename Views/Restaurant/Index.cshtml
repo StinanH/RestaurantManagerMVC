@@ -1,58 +1,120 @@
-﻿@model List<Restaurant>
+﻿@model Restaurant
 
-<form asp-action="Index" method="get">
-        <input name="searchItem" type="text" />
-        <button type="submit">Search</button>
-</form>
-
-@{
-    var uniqueName = User.FindFirst("unique_name").Value;
-    var email = User.FindFirst("email").Value;
-    var role = User.FindFirst("role").Value;
-}
-
-<p>Email : @email</p>
-<p>Welcome, @uniqueName. You are logged in as: @role.</p>
-
-
-@*Knapp för att logga ut*@
-<form asp-controller="Account" asp-action="Logout" method="post">
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
-<br />
-
-@foreach (var r in Model)
-{
-    <div class="card" style="width:18rem">
-        <div class="card-body">
-            <h5 class="card-title">@r.Name</h5>
-            <p class="card-text">address : @r.Address <br/> phonenumber : @r.PhoneNumber </p>
-            <p class="card-text"></p>
-        
-            <a asp-controller="Restaurants" asp-action="Edit" asp-route-id="@r.Id" class="btn btn-warning">Edit</a>
-            
-            <form method="post" asp-action="Delete" style="display:inline;">
-                <input type="hidden" name="id" value="@r.Id" />
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-
-
-        </div>
-    </div>
-
-
-}
-
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     ViewData["Title"] = "Restaurant Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewBag.Restaurangnamn</h1>
-    <p>information about restaurantplaceholder ,restaurant page :  <a href="https://learn.microsoft.com/aspnet/core">restaurantpageplaceholder</a>.</p>
+<!-- Storing info about user signed in-->
+@{
+    var uniqueName = User.FindFirst("unique_name").Value;
+    var email = User.FindFirst("email").Value;
+    var role = User.FindFirst("role").Value;
+
+    if (role == "Admin")
+    {
+        <h3>
+            Welcome @uniqueName! You are signed in as @role
+        </h3>
+    }
+
+    <br />
+}
+
+
+
+<!-- Printing name of restaurant, address and phone-->
+<div>
+    <h1>@Model.Name</h1><br />
+    <p class="card-text">address : @Model.Address <br /> phonenumber : @Model.PhoneNumber </p><br />
 </div>
+
+
+<div>
+    @*Sort by Name*@
+    <a asp-action="Index" asp-route-id="1" asp-route-sortOrder="name_asc">Sort by Name (a -> z)</a> |
+    <a asp-action="Index" asp-route-id="1" asp-route-sortOrder="name_desc">Sort by Name (z -> a</a> |
+
+    @*Sort by Price*@
+    <a asp-action="Index" asp-route-id="1" asp-route-sortOrder="price_asc">Sort by Price (lowest first)</a> |
+    <a asp-action="Index" asp-route-id="1" asp-route-sortOrder="price_desc">Sort by Price (highest first)</a>
+</div>
+
+
+@foreach (Menu menu in Model.Menus)
+{
+    <div>
+        <h2>@menu.Name</h2>
+    </div>
+        
+    <div class="row row-cols-1 row-cols-md-3">
+
+    @foreach (MenuItem menuItem in menu.MenuItems) {
+
+        if (menuItem.IsAvailable || role == "Admin")
+        {   
+            <div class="card text-white text-xl-center bg-dark mb-3 mx-3 my-3" style="max-width: 18rem">
+                <div class="card-body">
+                    <h5 class="card-header">
+                        @menuItem.Name
+                    </h5>
+                    <p class="card-text">@menuItem.Description </p>
+                    <p class="card-text">Pris : @menuItem.Price</p>
+                    <p class="card-text"></p>
+
+                    @if (role == "Admin")
+                    {
+                        <div>
+                            @*button to edit menuitem*@
+                            
+                            @*<a asp-controller="MenuItem" asp-action="Edit" method="put" asp-route-id="@menuItem.Id" class="btn btn-light btn-outline-warning text-black">Edit</a>*@
+
+                            <form method="post" asp-controller="MenuItem" asp-action="Edit" style="display:inline;">
+                                <input type="hidden" name="Id" value="@menuItem.Id" />
+                                <input type="hidden" name="Category" value="@menuItem.Category" />
+                                <input type="hidden" name="Name" value="@menuItem.Name" />
+                                <input type="hidden" name="Description" value="@menuItem.Description" />
+                                <input type="hidden" name="Price" value="@menuItem.Price" />
+                                <input type="hidden" name="IsAvaliabe" value="@menuItem.IsAvailable" />
+                                    <button type="submit" class="btn btn-light btn-outline-warning text-black mr-1 mx-1 my-1">Edit</button>
+                            </form>
+
+                            @*button to delete menuitem*@
+                            <form method="post" asp-controller="MenuItem" asp-action="Delete" style="display:inline;">
+                                <input type="hidden" name="Id" value="@menuItem.Id" />
+                                <input type="hidden" name="Category" value="@menuItem.Category" />
+                                <input type="hidden" name="Name" value="@menuItem.Name" />
+                                <input type="hidden" name="Description" value="@menuItem.Description" />
+                                <input type="hidden" name="Price" value="@menuItem.Price" />
+                                <input type="hidden" name="IsAvaliabe" value="@menuItem.IsAvailable" />
+                                <button type="submit" class="btn btn-light btn-outline-danger text-black mr-1 mx-1 my-1">Delete</button>
+                            </form>
+                            
+                        </div>
+                        <br/>
+                    }
+
+
+                    <div>
+                        @*button to add menuitem to order*@
+                        <button type="button" class="btn btn-light btn-outline-info text-black">Add to order</button>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+    </div>
+
+    @if(role == "Admin")
+    {
+        <div>
+            @*button to add menuitem to menu*@
+            <a asp-controller="MenuItem" asp-action="Create" method="post" class="btn btn-light btn-outline-success text-black">Add new item to Menu</a>
+        </div>
+    }
+
+}
+
+
 
 
