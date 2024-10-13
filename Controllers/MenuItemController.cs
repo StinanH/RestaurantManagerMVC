@@ -49,6 +49,7 @@ namespace RestaurantManagerMVC.Controllers
         public IActionResult Edit (MenuItem item) 
         {
             ViewData["Title"] = "Edit menu item!";
+
             return View(item); ;
         }
 
@@ -76,6 +77,7 @@ namespace RestaurantManagerMVC.Controllers
         public IActionResult Delete(MenuItem item)
         {
             ViewData["Title"] = "Delete menu item?!";
+
             return View(item);
         }
 

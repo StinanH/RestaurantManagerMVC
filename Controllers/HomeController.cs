@@ -24,14 +24,14 @@ namespace RestaurantManagerMVC.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int id, string sortOrder)
         {
+            ViewData["Title"] = "Welcomet to the Restaurant";
+
             id = 1;
 
             if (string.IsNullOrEmpty(sortOrder))
             {
                 sortOrder = "popularity_desc";
             }
-
-            ViewData["Title"] = "Welcomet to the Restaurant";
 
             //ser till att vi alltid tar in token
             var token = HttpContext.Request.Cookies["jwtToken"];
@@ -51,6 +51,8 @@ namespace RestaurantManagerMVC.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["Title"] = "The privacy!";
+
             return View();
         }
 
